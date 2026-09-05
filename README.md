@@ -8,21 +8,35 @@ Orixeo Learning Studio transforme un brief de formation en parcours pédagogique
 
 **Brief -> Design -> Generate -> Validate -> Play -> Measure -> Improve**
 
-## Ce qui fonctionne aujourd’hui
+## Ce qui fonctionne aujourd'hui
 
+### Learning Designer MVP
 - Designer web interactif
 - 28 modèles pédagogiques originaux Orixeo
 - objectifs, acquis et taxonomie de Bloom
 - séquences et activités éditables
 - ajout, suppression et réorganisation des séquences et activités
-- durée, type d’activité, évaluation et niveau d’assistance IA modifiables
+- durée, type d'activité, évaluation et niveau d'assistance IA modifiables
 - score de qualité pédagogique en temps réel
-- sauvegarde et reprise d’un brouillon dans le navigateur
+- sauvegarde et reprise d'un brouillon dans le navigateur
 - exports JSON, Markdown et HTML
 - CLI de validation/export
 - règles de gouvernance IA
 - modèle de partage/publication
 - tests automatiques du learning core
+
+### Socle SaaS
+- multi-tenant par entreprise
+- rôles `owner`, `admin`, `trainer`, `editor`, `viewer`
+- permissions centralisées
+- isolation des ressources par `tenantId`
+- plans Starter / Pro / Business
+- quotas sièges, designs, IA et liens de partage
+- modèles d'entreprise, membre, design et partage
+- événements d'audit
+- schéma PostgreSQL avec RLS
+- tests RBAC, isolation tenant et quotas
+- architecture prête pour authentification, Supabase/PostgreSQL et billing
 
 ## Architecture
 
@@ -32,10 +46,12 @@ Orixeo Learning Studio transforme un brief de formation en parcours pédagogique
 - `packages/templates` : 28 modèles pédagogiques Orixeo originaux
 - `packages/activities` : quiz, études de cas, débats, simulations, jeux de rôle
 - `packages/assessment` : diagnostic, formatif, sommatif, pair-à-pair
-- `packages/exporters` : socle d’export, avec JSON/Markdown/HTML utilisables dans le Designer
+- `packages/exporters` : JSON / Markdown / HTML, puis exports serveur
 - `packages/analytics` : participation, progression, recommandations
+- `packages/saas-core` : tenants, RBAC, plans, quotas, audit
 - `apps/web` : interface Orixeo Learning Studio
-- `tests` : tests du moteur de validation
+- `infra/postgres/schema.sql` : modèle de données SaaS multi-tenant et RLS
+- `tests` : tests learning core et SaaS core
 
 ## Lancer le Designer
 
@@ -62,6 +78,21 @@ npm run validate
 
 Ce projet est une réimplémentation indépendante. Aucun code, prompt, texte, interface ou fichier du projet Learning Designer de référence n'est copié.
 
-## Prochain niveau produit
+## Cible SaaS commerciale
 
-Le socle auteur est désormais utilisable. Les prochains développements concernent surtout l’industrialisation SaaS : authentification et multi-tenant, stockage serveur, partage réel par URL, exports DOCX/PPTX/PDF/XLSX, connexion Orixeo Play, analytics d’usage et génération IA via API.
+La cible est un produit multi-tenant pour formateurs, CFA, écoles, organismes de formation et entreprises.
+
+Les prochaines briques sont :
+
+1. authentification réelle et onboarding entreprise
+2. persistance serveur des designs et versions
+3. gestion des membres et invitations
+4. partage par URL sécurisé
+5. gateway IA avec quotas et journalisation des coûts
+6. billing et abonnements
+7. exports DOCX / PPTX / PDF / XLSX
+8. connexion Orixeo Play
+9. analytics d'usage et d'apprentissage
+10. administration SaaS et observabilité
+
+Voir `docs/SAAS-ARCHITECTURE.md` pour l'architecture cible.
