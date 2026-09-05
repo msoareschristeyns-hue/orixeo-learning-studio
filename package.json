@@ -1,0 +1,11 @@
+{
+  "name": "orixeo-learning-studio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Clean-room AI-assisted learning design platform for Orixeo",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "test": "node --test",
+    "validate": "node packages/learning-core/src/validate-design.mjs examples/achats-responsables.json"
+  }
+}
