@@ -1,0 +1,26 @@
+{
+  "id": "demo-achats-responsables",
+  "title": "Achats responsables - Master 2",
+  "audience": "Master 2",
+  "durationMinutes": 840,
+  "deliveryMode": "onsite",
+  "objectives": [
+    "Comprendre les principes des achats responsables",
+    "Analyser un portefeuille achats avec des critères RSE",
+    "Construire un plan d'action fournisseur"
+  ],
+  "outcomes": [
+    {"bloom": "understand", "statement": "Expliquer les principaux enjeux des achats responsables."},
+    {"bloom": "analyze", "statement": "Analyser une situation achat en intégrant risques, impacts et parties prenantes."},
+    {"bloom": "create", "statement": "Construire un plan d'action achats responsables argumenté."}
+  ],
+  "sequences": [
+    {
+      "title": "Cadrage et diagnostic",
+      "activities": [
+        {"type": "discussion", "durationMinutes": 30, "assessment": "diagnostic", "aiUsageLevel": 0},
+        {"type": "investigation", "durationMinutes": 60, "assessment": "formative", "aiUsageLevel": 1}
+      ]
+    }
+  ]
+}
