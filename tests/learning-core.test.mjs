@@ -4,7 +4,9 @@ import { validateDesign } from '../packages/learning-core/src/validate-design.mj
 
 const validDesign = {
   title: 'Test formation',
-  durationMinutes: 120,
+  durationMinutes: 60,
+  deliveryMode: 'onsite',
+  objectives: ['Appliquer une méthode'],
   outcomes: [{ bloom: 'apply', statement: 'Appliquer une méthode' }],
   sequences: [{ title: 'Séquence 1', activities: [{ type: 'practice', durationMinutes: 60, assessment: 'formative' }] }]
 };
@@ -29,4 +31,31 @@ test('validateDesign rejects invalid Bloom level', () => {
   const result = validateDesign(design);
   assert.equal(result.valid, false);
   assert.ok(result.errors.some(e => e.includes('invalid Bloom')));
+});
+
+test('validateDesign rejects inconsistent planned duration', () => {
+  const design = structuredClone(validDesign);
+  design.durationMinutes = 120;
+  const result = validateDesign(design);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some(e => e.includes('planned duration')));
+});
+
+test('validateDesign rejects invalid delivery and AI level', () => {
+  const design = structuredClone(validDesign);
+  design.deliveryMode = 'hybrid';
+  design.sequences[0].activities[0].aiAssistanceLevel = 5;
+  const result = validateDesign(design);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some(e => e.includes('deliveryMode')));
+  assert.ok(result.errors.some(e => e.includes('AI assistance')));
+});
+
+test('validateDesign rejects empty sequences', () => {
+  const design = structuredClone(validDesign);
+  design.sequences[0].activities = [];
+  design.durationMinutes = 1;
+  const result = validateDesign(design);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some(e => e.includes('at least one activity')));
 });

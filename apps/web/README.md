@@ -18,20 +18,21 @@ http://localhost:8080/apps/web/
 
 ## Fonctionnalités actuelles
 
-- saisie du brief ;
+- import d’un syllabus texte/Markdown ou saisie du brief ;
 - choix d’un modèle pédagogique ;
 - génération d’un scénario structuré ;
 - affichage des séquences et activités ;
 - indication du niveau d’assistance IA ;
-- export JSON.
+- validation pédagogique en temps réel ;
+- édition, ajout, suppression et réordonnancement ;
+- sauvegarde locale ;
+- export JSON, Markdown et HTML.
 
 ## Prochaines étapes
 
-- validation pédagogique détaillée dans l’UI ;
-- édition manuelle des séquences et activités ;
-- ajout/suppression/réordonnancement ;
-- export Markdown/HTML/DOCX/PPTX ;
-- sauvegarde utilisateur ;
+- import PDF directement dans le navigateur ;
+- export DOCX/PPTX/PDF ;
+- sauvegarde serveur ;
 - publication et partage ;
 - connexion à Orixeo Play ;
 - analytics et recommandations IA.

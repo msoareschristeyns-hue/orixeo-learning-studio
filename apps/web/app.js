@@ -1,4 +1,7 @@
 import { TEMPLATE_CATALOG, getTemplate } from '../../packages/templates/src/catalog.mjs';
+import { parseSyllabusText } from '../../packages/syllabus-importer/src/index.mjs';
+import { createDesign } from '../../packages/learning-core/src/schema.mjs';
+import { toMarkdown, toHtml } from '../../packages/exporters/src/index.mjs';
 
 const $ = (id) => document.getElementById(id);
 const STORAGE_KEY = 'orixeo-learning-studio-draft-v1';
@@ -21,7 +24,8 @@ function buildDesign() {
   const template = getTemplate($('template').value);
   const objectives = lines($('objectives').value);
   const moments = template?.moments ?? ['Cadrage','Apport','Mise en pratique','Synthèse'];
-  const perActivity = Math.max(15, Math.floor(Number($('duration').value) / Math.max(1, moments.length)));
+  const totalDuration = Number($('duration').value);
+  const perActivity = Math.max(1, Math.floor(totalDuration / Math.max(1, moments.length)));
   currentDesign = {
     id: crypto.randomUUID(),
     title: $('title').value.trim(),
@@ -33,7 +37,7 @@ function buildDesign() {
     sequences: moments.map((title, index) => ({
       id: crypto.randomUUID(),
       title,
-      activities: [newActivity(index, perActivity, index === moments.length - 1)]
+      activities: [newActivity(index, index === moments.length - 1 ? totalDuration - perActivity * index : perActivity, index === moments.length - 1)]
     })),
     metadata: { cleanRoom: true, generatedBy: 'orixeo-web-editor', template: template?.id ?? null, updatedAt: new Date().toISOString() }
   };
@@ -102,6 +106,29 @@ function render() {
   bindEditor();
 }
 
+function loadDesignIntoEditor(design) {
+  currentDesign = createDesign(design);
+  $('title').value = currentDesign.title || '';
+  $('audience').value = currentDesign.audience || '';
+  $('duration').value = currentDesign.durationMinutes || 60;
+  $('mode').value = currentDesign.deliveryMode || 'onsite';
+  $('objectives').value = (currentDesign.objectives || []).join('\n');
+  render();
+}
+
+async function importSyllabus() {
+  const file = $('syllabusFile').files[0];
+  const text = file ? await file.text() : $('syllabusText').value;
+  try {
+    loadDesignIntoEditor(parseSyllabusText(text));
+    $('importStatus').textContent = 'Proposition générée. Vérifiez et validez chaque séquence avant export.';
+    $('status').textContent = 'À valider par le formateur';
+    $('status').className = 'badge warn';
+  } catch (error) {
+    $('importStatus').textContent = `Import impossible : ${error.message}`;
+  }
+}
+
 function activityHtml(a, si, ai) {
   const options = (list, selected) => list.map(v => `<option value="${v}" ${v === selected ? 'selected' : ''}>${v}</option>`).join('');
   return `<div class="activity" data-seq="${si}" data-act="${ai}">
@@ -143,16 +170,13 @@ function bindEditor() {
 function move(list, index, delta) { const next=index+delta; if(next<0||next>=list.length)return; [list[index],list[next]]=[list[next],list[index]]; render(); }
 function renderQualityOnly(){ const q=qualityReport(); $('qualityScore').textContent=`${q.score}/100`; $('qualityList').innerHTML=q.items.map(i=>`<li>${esc(i)}</li>`).join(''); }
 
-function toMarkdown(d) {
-  return `# ${d.title}\n\n**Public :** ${d.audience}\n\n**Durée :** ${d.durationMinutes} min\n\n**Modalité :** ${d.deliveryMode}\n\n## Objectifs\n${d.objectives.map(o=>`- ${o}`).join('\n')}\n\n${d.sequences.map(s=>`## ${s.title}\n${s.activities.map(a=>`### ${a.title}\n- Type : ${a.type}\n- Durée : ${a.durationMinutes} min\n- Évaluation : ${a.assessment}\n- IA : niveau ${a.aiAssistanceLevel}\n\n${a.notes||''}`).join('\n\n')}`).join('\n\n')}`;
-}
-function toHtml(d) { return `<!doctype html><meta charset="utf-8"><title>${esc(d.title)}</title><h1>${esc(d.title)}</h1><p>${esc(d.audience)} · ${d.durationMinutes} min</p>${d.sequences.map(s=>`<h2>${esc(s.title)}</h2>${s.activities.map(a=>`<h3>${esc(a.title)}</h3><p>${esc(a.type)} · ${a.durationMinutes} min · ${esc(a.assessment)} · IA ${a.aiAssistanceLevel}</p><p>${esc(a.notes||'')}</p>`).join('')}`).join('')}`; }
 function download(content, type, filename){ const blob=new Blob([content],{type}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); }
 
 $('generateBtn').addEventListener('click', buildDesign);
 $('addSequenceBtn').addEventListener('click', () => { if(!currentDesign)return; currentDesign.sequences.push({id:crypto.randomUUID(),title:'Nouvelle séquence',activities:[newActivity(3,30,false)]}); render(); });
 $('saveBtn').addEventListener('click', () => { if(!currentDesign) buildDesign(); syncHeader(); localStorage.setItem(STORAGE_KEY, JSON.stringify(currentDesign)); $('status').textContent='Brouillon sauvegardé'; });
-$('loadBtn').addEventListener('click', () => { const raw=localStorage.getItem(STORAGE_KEY); if(!raw)return; currentDesign=JSON.parse(raw); $('title').value=currentDesign.title||''; $('audience').value=currentDesign.audience||''; $('duration').value=currentDesign.durationMinutes||60; $('mode').value=currentDesign.deliveryMode||'onsite'; $('objectives').value=(currentDesign.objectives||[]).join('\n'); render(); });
+$('loadBtn').addEventListener('click', () => { const raw=localStorage.getItem(STORAGE_KEY); if(!raw)return; loadDesignIntoEditor(JSON.parse(raw)); });
+$('importBtn').addEventListener('click', importSyllabus);
 $('exportBtn').addEventListener('click', () => { if(!currentDesign) buildDesign(); syncHeader(); const f=$('exportFormat').value; if(f==='md') download(toMarkdown(currentDesign),'text/markdown','orixeo-design.md'); else if(f==='html') download(toHtml(currentDesign),'text/html','orixeo-design.html'); else download(JSON.stringify(currentDesign,null,2),'application/json','orixeo-design.json'); });
 ['title','audience','duration','mode','objectives'].forEach(id => $(id).addEventListener('input', () => { if(currentDesign){ syncHeader(); renderQualityOnly(); }}));
 

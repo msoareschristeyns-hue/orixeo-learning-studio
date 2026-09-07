@@ -20,6 +20,8 @@ Orixeo Learning Studio transforme un brief de formation en parcours pédagogique
 - score de qualité pédagogique en temps réel
 - sauvegarde et reprise d'un brouillon dans le navigateur
 - exports JSON, Markdown et HTML
+- import de syllabus PDF en CLI et texte/Markdown dans le Designer
+- proposition de parcours marquée pour validation humaine
 - CLI de validation/export
 - règles de gouvernance IA
 - modèle de partage/publication
@@ -73,6 +75,16 @@ http://localhost:8000/apps/web/
 npm test
 npm run validate
 ```
+
+## Importer un syllabus
+
+Pour un PDF (nécessite `pdftotext`) ou un fichier texte/Markdown :
+
+```bash
+npm run import:syllabus -- chemin/vers/syllabus.pdf parcours.json
+```
+
+Le Designer accepte également un fichier texte/Markdown ou du contenu collé. L’import produit une proposition structurée ; le formateur reste responsable de sa contextualisation et de sa validation avant export.
 
 ## Principes clean-room
 

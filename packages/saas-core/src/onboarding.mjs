@@ -1,10 +1,12 @@
-import { createTenant, createMembership } from './models.mjs';
+import { newTenant, newMember } from './models.mjs';
 
 export function createWorkspace({ userId, companyName, plan = 'starter' }) {
   if (!userId) throw new Error('userId is required');
   if (!companyName?.trim()) throw new Error('companyName is required');
-  const tenant = createTenant({ name: companyName.trim(), plan });
-  const membership = createMembership({ tenantId: tenant.id, userId, role: 'owner' });
+  const slug = companyName.trim().toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const tenant = newTenant({ name: companyName.trim(), slug, planId: plan });
+  const membership = newMember({ tenantId: tenant.id, userId, role: 'owner' });
   return { tenant, membership };
 }
 

@@ -6,6 +6,7 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "test": "node --test",
-    "validate": "node packages/learning-core/src/validate-design.mjs examples/achats-responsables.json"
+    "validate": "node packages/learning-core/src/validate-design.mjs examples/achats-responsables.json",
+    "import:syllabus": "node bin/import-syllabus.mjs"
   }
 }
