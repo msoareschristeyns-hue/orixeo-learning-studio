@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bibliotheque | Orixeo Learning Studio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="library.css" />
+</head>
+<body>
+  <header class="library-header">
+    <a class="brand" href="index.html"><span>ORIXEO</span> Learning Studio</a>
+    <nav><a href="index.html">Designer</a><a class="active" href="library.html">Bibliotheque</a></nav>
+  </header>
+  <main class="library-shell">
+    <section class="library-hero">
+      <p class="eyebrow">Bibliotheque pedagogique professionnelle</p>
+      <h1>Trouver l'activite adaptee. La personnaliser. L'animer.</h1>
+      <p>Des activites originales Orixeo pour les formations en entreprise, avec consignes, template apprenant, attendu formateur et debrief.</p>
+    </section>
+    <section class="filters" aria-label="Filtres">
+      <label>Rechercher<input id="search" type="search" placeholder="Ex. shadow IA, achats, risques..." /></label>
+      <label>Domaine<select id="domain"><option value="all">Tous les domaines</option></select></label>
+      <label>Format<select id="format"><option value="all">Tous les formats</option></select></label>
+    </section>
+    <div class="results-bar"><strong id="count">0</strong> activites disponibles</div>
+    <section id="cards" class="activity-grid"></section>
+  </main>
+  <dialog id="activity-dialog"><button id="close-dialog" class="close" aria-label="Fermer">x</button><div id="dialog-content"></div></dialog>
+  <script type="module" src="library.js"></script>
+</body>
+</html>
