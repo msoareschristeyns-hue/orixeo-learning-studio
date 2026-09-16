@@ -1,0 +1,92 @@
+{
+  "id": "novatech-achats-001",
+  "title": "Crise fournisseur chez Novatech Industries",
+  "durationMinutes": 45,
+  "company": {
+    "name": "Novatech Industries",
+    "employees": 150,
+    "revenueMEUR": 38,
+    "purchasesMEUR": 28,
+    "sites": 2
+  },
+  "mission": "Sécuriser l'approvisionnement, préparer la négociation et recommander une décision argumentée à la direction générale.",
+  "initialFacts": [
+    "Le fournisseur stratégique annonce une hausse tarifaire de 18 %.",
+    "Il représente 62 % des approvisionnements de cette famille.",
+    "Le stock disponible couvre 19 jours.",
+    "La direction générale refuse une hausse supérieure à 5 %."
+  ],
+  "characters": [
+    {
+      "id": "supplier",
+      "name": "Marc Delcourt",
+      "role": "Directeur commercial du fournisseur",
+      "goal": "Faire accepter une hausse significative sans perdre le compte.",
+      "cooperation": 2,
+      "knownFacts": ["Les coûts énergie et transport ont augmenté.", "La marge réelle permet une négociation partielle."],
+      "hiddenFacts": ["Un arrêt de production de trois semaines est probable."]
+    },
+    {
+      "id": "cfo",
+      "name": "Sophie Martin",
+      "role": "Directrice financière",
+      "goal": "Limiter l'impact sur la marge et obtenir une décision chiffrée.",
+      "cooperation": 4,
+      "knownFacts": ["Chaque point de hausse a un impact direct sur la marge de la gamme."],
+      "hiddenFacts": []
+    },
+    {
+      "id": "production",
+      "name": "Karim Benali",
+      "role": "Directeur de production",
+      "goal": "Éviter toute rupture de ligne.",
+      "cooperation": 3,
+      "knownFacts": ["Une rupture de plus de deux jours perturberait fortement le planning."],
+      "hiddenFacts": []
+    },
+    {
+      "id": "quality",
+      "name": "Claire Roux",
+      "role": "Responsable qualité",
+      "goal": "Éviter un changement fournisseur non qualifié.",
+      "cooperation": 4,
+      "knownFacts": ["La qualification d'une source alternative demande normalement plusieurs semaines."],
+      "hiddenFacts": []
+    },
+    {
+      "id": "ceo",
+      "name": "Thomas Leroy",
+      "role": "Directeur général",
+      "goal": "Obtenir une recommandation claire, sécurisée et économiquement défendable.",
+      "cooperation": 3,
+      "knownFacts": ["Une hausse supérieure à 5 % n'est pas acceptable sans contreparties fortes."],
+      "hiddenFacts": []
+    }
+  ],
+  "events": [
+    {
+      "id": "supplier-stop",
+      "title": "Arrêt de production fournisseur",
+      "trigger": {"type": "turn", "value": 4},
+      "reveals": ["Le fournisseur annonce un arrêt de production de trois semaines."]
+    },
+    {
+      "id": "sales-growth",
+      "title": "Nouvelle opportunité commerciale",
+      "trigger": {"type": "turn", "value": 8},
+      "reveals": ["Le commerce annonce une opportunité susceptible d'augmenter les volumes de 20 %."
+      ]
+    }
+  ],
+  "skills": [
+    "diagnostic",
+    "investigation",
+    "questioning",
+    "verification",
+    "critical-thinking",
+    "decision-making",
+    "adaptability",
+    "communication",
+    "ai-collaboration"
+  ]
+}
