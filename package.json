@@ -1,12 +1,13 @@
 {
   "name": "orixeo-learning-studio",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Clean-room AI-assisted learning design platform for Orixeo",
+  "description": "Clean-room AI-assisted learning design and simulation platform for Orixeo",
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "test": "node --test",
     "validate": "node packages/learning-core/src/validate-design.mjs examples/achats-responsables.json",
-    "import:syllabus": "node bin/import-syllabus.mjs"
+    "import:syllabus": "node bin/import-syllabus.mjs",
+    "start:simulator": "node apps/server/src/server.mjs"
   }
 }
