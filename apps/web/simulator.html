@@ -8,104 +8,34 @@
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">O</div>
-      <div>
-        <strong>Orixeo Learning Studio</strong>
-        <span>Learning Experience Simulator · 2.0</span>
-      </div>
-    </div>
-    <div class="session-meta">
-      <span class="status-dot"></span>
-      <span id="sessionStatus">Session active</span>
-      <span id="timer">45:00</span>
-    </div>
+    <div class="brand"><div class="brand-mark">O</div><div><strong>Orixeo Learning Studio</strong><span>Learning Experience Simulator · 2.0</span></div></div>
+    <div class="session-meta"><span class="status-dot"></span><span id="sessionStatus">Session active</span><span id="timer">45:00</span></div>
   </header>
-
   <main class="layout">
     <aside class="panel context-panel">
-      <p class="eyebrow">Mission</p>
-      <h1 id="scenarioTitle">Chargement…</h1>
-      <p id="mission" class="mission"></p>
-
-      <section>
-        <div class="section-title-row">
-          <h2>Faits disponibles</h2>
-          <span id="factCount" class="pill"></span>
-        </div>
-        <ul id="facts" class="fact-list"></ul>
-      </section>
-
-      <section>
-        <h2>Événements</h2>
-        <div id="events" class="event-list">
-          <p class="muted">Aucun événement nouveau.</p>
-        </div>
-      </section>
+      <p class="eyebrow">Mission</p><h1 id="scenarioTitle">Chargement…</h1><p id="mission" class="mission"></p>
+      <section><div class="section-title-row"><h2>Faits disponibles</h2><span id="factCount" class="pill"></span></div><ul id="facts" class="fact-list"></ul></section>
+      <section><h2>Événements</h2><div id="events" class="event-list"><p class="muted">Aucun événement nouveau.</p></div></section>
     </aside>
-
     <section class="workspace">
       <div class="character-strip" id="characters" aria-label="Interlocuteurs"></div>
-
       <article class="conversation-card">
-        <div class="conversation-head">
-          <div>
-            <p class="eyebrow">Interlocuteur actif</p>
-            <h2 id="activeName">—</h2>
-            <p id="activeRole" class="muted"></p>
-          </div>
-          <div class="mode-switch" role="group" aria-label="Mode d'interaction">
-            <button id="textMode" class="mode-btn active" type="button">⌨ Texte</button>
-            <button id="voiceMode" class="mode-btn" type="button">🎙 Voix</button>
-          </div>
-        </div>
-
+        <div class="conversation-head"><div><p class="eyebrow">Interlocuteur actif</p><h2 id="activeName">—</h2><p id="activeRole" class="muted"></p></div><div class="mode-switch" role="group" aria-label="Mode d'interaction"><button id="textMode" class="mode-btn active" type="button">⌨ Texte</button><button id="voiceMode" class="mode-btn" type="button">🎙 Voix</button></div></div>
         <div id="conversation" class="conversation" aria-live="polite"></div>
-
-        <div id="voicePanel" class="voice-panel hidden">
-          <button id="micButton" class="mic-button" type="button" aria-label="Démarrer la prise de parole">🎙</button>
-          <div>
-            <strong id="voiceState">Appuyez pour parler</strong>
-            <p id="voiceHelp">La transcription apparaîtra dans la conversation.</p>
-          </div>
-        </div>
-
-        <form id="messageForm" class="composer">
-          <textarea id="messageInput" rows="2" placeholder="Posez votre question à cet interlocuteur…" required></textarea>
-          <button class="send-btn" type="submit">Envoyer</button>
-        </form>
+        <div id="voicePanel" class="voice-panel hidden"><button id="micButton" class="mic-button" type="button" aria-label="Démarrer la prise de parole">🎙</button><div><strong id="voiceState">Appuyez pour parler</strong><p id="voiceHelp">La plateforme utilisera la voix IA temps réel lorsqu'elle est configurée, avec repli automatique sur la transcription navigateur.</p></div></div>
+        <form id="messageForm" class="composer"><textarea id="messageInput" rows="2" placeholder="Posez votre question à cet interlocuteur…" required></textarea><button class="send-btn" type="submit">Envoyer</button></form>
       </article>
     </section>
-
     <aside class="panel decision-panel">
-      <p class="eyebrow">Think → AI → Challenge → Decide</p>
-      <h2>Votre analyse</h2>
-
-      <label for="hypothesis">Hypothèse / diagnostic</label>
-      <textarea id="hypothesis" rows="5" placeholder="Ce que je pense avant de décider…"></textarea>
-
-      <label for="decision">Décision recommandée</label>
-      <textarea id="decision" rows="6" placeholder="Ma recommandation à la direction…"></textarea>
-
-      <label for="evidence">Éléments qui justifient ma décision</label>
-      <textarea id="evidence" rows="5" placeholder="Faits, contradictions, risques, données…"></textarea>
-
+      <p class="eyebrow">Think → AI → Challenge → Decide</p><h2>Votre analyse</h2>
+      <label for="hypothesis">Hypothèse / diagnostic</label><textarea id="hypothesis" rows="5" placeholder="Ce que je pense avant de décider…"></textarea>
+      <label for="decision">Décision recommandée</label><textarea id="decision" rows="6" placeholder="Ma recommandation à la direction…"></textarea>
+      <label for="evidence">Éléments qui justifient ma décision</label><textarea id="evidence" rows="5" placeholder="Faits, contradictions, risques, données…"></textarea>
       <button id="submitDecision" class="primary-btn" type="button">Soumettre ma décision</button>
-
-      <div id="skillsPreview" class="skills-preview">
-        <h3>Compétences observées</h3>
-        <div id="skills"></div>
-      </div>
+      <div id="skillsPreview" class="skills-preview"><h3>Compétences observées</h3><div id="skills"></div></div>
     </aside>
   </main>
-
-  <dialog id="decisionDialog">
-    <h2>Décision enregistrée</h2>
-    <p>Votre recommandation et les éléments de preuve sont conservés pour le débrief pédagogique.</p>
-    <div id="decisionSummary" class="decision-summary"></div>
-    <button id="closeDialog" class="primary-btn" type="button">Continuer</button>
-  </dialog>
-
-  <script type="module" src="./simulator.js"></script>
+  <dialog id="decisionDialog"><h2>Décision enregistrée</h2><p>Votre recommandation et les éléments de preuve sont conservés pour le débrief pédagogique.</p><div id="decisionSummary" class="decision-summary"></div><button id="closeDialog" class="primary-btn" type="button">Continuer</button></dialog>
+  <script type="module" src="./simulator-v2.js"></script>
 </body>
 </html>
